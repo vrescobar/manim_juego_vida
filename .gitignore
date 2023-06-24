@@ -6,3 +6,5 @@ raster
 sound
 temp_storage
 vector
+videos/*
+slides/*

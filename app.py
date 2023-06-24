@@ -4,7 +4,7 @@ import sys
 sys.path.insert(1, '.')
 
 from life_game import Life
-CUSTOM_WHITE = '#ecf0f1'
+CUSTOM_BLACK = BLACK
 _BLACK_OPACITY = 0.6
 TITLE_FONT_SIZE = 60
 BODY_FONT_SIZE = 30
@@ -16,98 +16,21 @@ FONT_FAMILY = 'Poppins'
 class AppLife(Scene):
 
     def construct(self) -> None:
-
         num_rows = 40
         # num_cols = 60
         num_cols = 72
-
         # crear un tablero de vida vacío
-        life = Life(num_rows, num_cols)
-
+        self.life = Life(num_rows, num_cols)
         # esta cuadrícula será nuestro campo de juego para mostrar la animación de vida
         grid = AppLife.create_grid(num_rows, num_cols, cell_height=14)
         self.add(grid)
-
-        # ANIMACIONES:
-
-        # 1. mostrar el desplazamiento del planeador
-        self.glider(grid, life, num_generations=30, wait_time=0.1)
-
-        # 2. mostrar la introducción
-        self.show_title_n_body(
-            title="Juego de la Vida",
-            body="El Juego de la Vida de Conway es un juego de cero jugadores con unas reglas simples",
-            wait_time=2.5,
-        )
-
-        # 3. mostrar las reglas
-        # self.clear_screen(grid, life)
-        self.show_rules(grid, life)
-
-        # 4. mostrar mensaje posterior a las reglas
-        self.clear_screen(grid, life)
-        self.show_text("Estas reglas convierten patrones de inicio simples en patrones complejos.\n"
-                       "Algunos desaparecen por completo y otros progresan infinitamente", font_size=BODY_FONT_SIZE, wait_time=2.5)
-
-        # 5. R-pentominó
-        self.clear_screen(grid, life)
-        self.show_text("R-pentominó", font_size=TITLE_FONT_SIZE, wait_time=1)
-        # para mostrar la posición inicial del R-pentominó
-        self.r_pentomino(grid, life, num_generations=1, wait_time=1)
-        self.wait(0.5)
-        # para animar realmente el R-pentominó
-        self.r_pentomino(grid, life, num_generations=70)
-
-        # 6. mostrar mensaje sobre patrones interesantes
-        # self.clear_screen(grid, life)
-        # self.show_text("Algunos patrones interesantes:", font_size=BODY_FONT_SIZE)
-
-        # 7. Vida estática
-        self.clear_screen(grid, life)
-        self.show_title_n_body("Vida Estática",
-                               "Patrones que no cambian en las generaciones posteriores")
-        self.still_life(grid, life, num_generations=15)
-
-        # 8. Osciladores
-        self.clear_screen(grid, life)
-        self.show_title_n_body(
-            "Osciladores", "Vuelven a su estado inicial después de algunas generaciones")
-        self.oscillators(grid, life, num_generations=25, wait_time=0.3)
-
-        # 9. Planeador
-        self.clear_screen(grid, life)
-        self.show_title_n_body("Arma del Planeador de Gosper (Glider Gun)",
-                               "Emite un planeador cada 30 generaciones (descubierto en 1970)")
-        self.glider_gun(grid, life, num_generations=1, wait_time=1)
-        self.wait(0.5)
-        self.glider_gun(grid, life, num_generations=90, wait_time=0.05)
-
-        # 10. Copperhead
-
-        self.clear_screen(grid, life)
-        self.show_title_n_body(
-            "Cabeza de Cobre", "Nave espacial (descubierta en 2016)")
-        self.copperhead(grid, life, num_generations=1, wait_time=1)
-        self.wait(0.5)
-        self.copperhead(grid, life, num_generations=100, wait_time=0.1)
-
-        # # 11. Búscalo en Google
-        # self.clear_screen(grid, life)
-        # self.show_text("Si buscas 'Juego de la Vida' en Google, encontrarás un divertido huevo de Pascua",
-        #                font_size=TITLE_FONT_SIZE)
-
-        # 11. Predecibilidad
-        self.clear_screen(grid, life)
-        self.show_question()
-
-        # self.embed()
 
     @staticmethod
     def create_grid(num_rows, num_cols, cell_height=6):
         # crear una cuadrícula de cuadrados
         square = Square()
-        square.set_fill(BLACK, opacity=_BLACK_OPACITY)
-        square.set_stroke(BLACK, width=0)
+        square.set_fill(WHITE, opacity=_BLACK_OPACITY)
+        square.set_stroke(GREY, width=0)
 
         grid = square.get_grid(num_rows, num_cols, height=cell_height)
         grid.arrange_in_grid(
@@ -140,17 +63,18 @@ class AppLife(Scene):
 
                     # esta celda está viva
                     if life.board[i][j] == 1:
-                        grid[grid_idx].set_fill(CUSTOM_WHITE)
+                        grid[grid_idx].set_fill(BLACK)
                         grid[grid_idx].set_stroke(BLACK, width=.3)
                     else:
-                        grid[grid_idx].set_fill(BLACK, opacity=_BLACK_OPACITY)
+                        grid[grid_idx].set_fill(WHITE, opacity=_BLACK_OPACITY)
+                        grid[grid_idx].set_stroke(BLACK, width=.3)
 
             life.compute_next_state()
             generation += 1
 
     def show_title_n_body(self, title, body, wait_time=2.5):
-        title = Text(title, font_size=TITLE_FONT_SIZE, font=FONT_FAMILY)
-        body = Text(body, font_size=BODY_FONT_SIZE, font=FONT_FAMILY)
+        title = Text(title, font_size=TITLE_FONT_SIZE, font=FONT_FAMILY, color=BLACK)
+        body = Text(body, font_size=BODY_FONT_SIZE, font=FONT_FAMILY, color=BLACK)
         vgroup = VGroup(title, body).arrange(
             DOWN, buff=TITLE_BODY_BUFFER, center=False, aligned_edge=LEFT)  # .set_y(0)
         vgroup.to_edge(UP)
@@ -159,7 +83,7 @@ class AppLife(Scene):
         self.wait(wait_time)
 
     def show_text(self, text_str, font_size, wait_time=2.5):
-        text = Text(text_str, font_size=font_size, font=FONT_FAMILY)
+        text = Text(text_str, font_size=font_size, font=FONT_FAMILY, color=BLACK)
         text.to_edge(UP)
         text.to_edge(LEFT)
         self.play(FadeIn(text))
@@ -167,19 +91,24 @@ class AppLife(Scene):
 
     def show_question(self, wait_time=3):
         text = Text(
-            "P: Dado un estado del tablero, ¿es posible determinar si un cierto patrón desaparecerá o vivirá para siempre?",
-            font_size=BODY_FONT_SIZE, font=FONT_FAMILY)
+            "P: Dado un estado del tablero,\n¿es posible determinar si un cierto patrón desaparecerá o vivirá para siempre?",
+            font_size=BODY_FONT_SIZE, font=FONT_FAMILY, color=BLACK)
         text.to_edge(UP)
         text.to_edge(LEFT)
 
-        credits_text = Text("código: github.com/emadehsan/life",
-                            font_size=BODY_FONT_SIZE, font=FONT_FAMILY)
+        credits_text = Text("código original: github.com/emadehsan/life",
+                            font_size=BODY_FONT_SIZE, font=FONT_FAMILY, color=BLACK)
+        modificado = Text("Modificado por Víctor R. Escobar (publición pendiente)",
+                            font_size=BODY_FONT_SIZE, font=FONT_FAMILY, color=BLACK)
         credits_text.to_edge(BOTTOM)
+        # modificado, just below credits
+        modificado.next_to(credits_text, DOWN)
+        
         text.to_edge(LEFT)
 
         self.play(FadeIn(text))
         self.wait(wait_time)
-        self.play(FadeIn(credits_text))
+        self.play(FadeIn(modificado), FadeIn(credits_text))
         self.wait(wait_time)
 
     def show_rules(self, grid, life, wait_time=1.5):
@@ -226,10 +155,10 @@ class AppLife(Scene):
 
             # mostrar el texto de esta regla
             title = Text(
-                rule['title'], font_size=TITLE_FONT_SIZE, font=FONT_FAMILY)
+                rule['title'], font_size=TITLE_FONT_SIZE, font=FONT_FAMILY, color=BLACK)
             body = Text(rule['body'], font_size=BODY_FONT_SIZE,
-                        font=FONT_FAMILY)
-            # body2 = Text(rule['body2'], font_size=BODY_FONT_SIZE, font=FONT_FAMILY)
+                        font=FONT_FAMILY, color=BLACK)
+            # body2 = Text(rule['body2'], font_size=BODY_FONT_SIZE, font=FONT_FAMILY, color=BLACK)
 
             vgroup = VGroup(title, body).arrange(
                 DOWN, buff=TITLE_BODY_BUFFER, center=False, aligned_edge=LEFT)
@@ -337,3 +266,171 @@ class AppLife(Scene):
         life.put_copperhead(life.num_rows//2 - 4, life.num_cols//2 - 6)
 
         self.animate_grid(grid, life, num_generations, wait_time)
+
+class SceneGlider(AppLife):
+    def construct(self):
+        super().construct()
+        num_rows = 40
+        num_cols = 72
+        wait_time=0.1
+
+        life = Life(num_rows, num_cols)
+        grid = AppLife.create_grid(num_rows, num_cols, cell_height=14)
+        self.add(grid)
+
+        self.glider(grid, life, num_generations=30, wait_time=wait_time)
+
+class SceneIntro(AppLife):
+    def construct(self):
+        super().construct()
+        num_rows = 40
+        num_cols = 72
+        wait_time=2.5
+
+        life = Life(num_rows, num_cols)
+        grid = AppLife.create_grid(num_rows, num_cols, cell_height=14)
+        self.add(grid)
+
+        self.show_title_n_body(
+            title="Juego de la Vida",
+            body="El Juego de la Vida de Conway es un juego de cero jugadores con unas reglas simples",
+            wait_time=wait_time,
+        )
+
+class SceneRules(AppLife):
+    def construct(self):
+        super().construct()
+        num_rows = 40
+        num_cols = 72
+        wait_time=1.5
+
+        life = Life(num_rows, num_cols)
+        grid = AppLife.create_grid(num_rows, num_cols, cell_height=14)
+        self.add(grid)
+
+        self.show_rules(grid, life, wait_time=wait_time)
+
+class ScenePostRules(AppLife):
+    def construct(self):
+        super().construct()
+        num_rows = 40
+        num_cols = 72
+        wait_time=2.5
+
+        life = Life(num_rows, num_cols)
+        grid = AppLife.create_grid(num_rows, num_cols, cell_height=14)
+        self.add(grid)
+
+        self.clear_screen(grid, life)
+        self.show_text("Estas reglas convierten patrones de inicio simples en patrones complejos.\n"
+                       "Algunos desaparecen por completo y otros progresan infinitamente", font_size=BODY_FONT_SIZE, wait_time=wait_time, color=BLACK)
+
+class SceneRPentomino(AppLife):
+    def construct(self):
+        super().construct()
+        num_rows = 40
+        num_cols = 72
+
+        life = Life(num_rows, num_cols)
+        grid = AppLife.create_grid(num_rows, num_cols, cell_height=14)
+        self.add(grid)
+
+        self.clear_screen(grid, life)
+        self.show_text("R-pentominó", font_size=TITLE_FONT_SIZE, wait_time=1)
+        self.r_pentomino(grid, life, num_generations=1, wait_time=1)
+        self.wait(0.5)
+
+        self.r_pentomino(grid, life, num_generations=70)
+
+class SceneStillLife(AppLife):
+    def construct(self):
+        super().construct()
+        num_rows = 40
+        num_cols = 72
+        wait_time = 0.2
+
+        life = Life(num_rows, num_cols)
+        grid = AppLife.create_grid(num_rows, num_cols, cell_height=14)
+        self.add(grid)
+
+        self.clear_screen(grid, life)
+        self.show_title_n_body("Vida Estática",
+                               "Patrones que no cambian en las generaciones posteriores")
+
+        self.still_life(grid, life, num_generations=15, wait_time=wait_time)
+
+class SceneOscillators(AppLife):
+    def construct(self):
+        super().construct()
+        num_rows = 40
+        num_cols = 72
+        wait_time = 0.3
+
+        life = Life(num_rows, num_cols)
+        grid = AppLife.create_grid(num_rows, num_cols, cell_height=14)
+        self.add(grid)
+
+        self.clear_screen(grid, life)
+        self.show_title_n_body(
+            "Osciladores", "Vuelven a su estado inicial después de algunas generaciones")
+
+        self.oscillators(grid, life, num_generations=25, wait_time=wait_time)
+
+class SceneGliderGun(AppLife):
+    def construct(self):
+        super().construct()
+        num_rows = 40
+        num_cols = 72
+        wait_time = 1
+
+        life = Life(num_rows, num_cols)
+        grid = AppLife.create_grid(num_rows, num_cols, cell_height=14)
+        self.add(grid)
+
+        self.clear_screen(grid, life)
+        self.show_title_n_body("Arma del Planeador de Gosper (Glider Gun)",
+                               "Emite un planeador cada 30 generaciones (descubierto en 1970)")
+        self.glider_gun(grid, life, num_generations=1, wait_time=wait_time)
+        self.wait(0.5)
+
+        self.glider_gun(grid, life, num_generations=90, wait_time=0.05)
+
+class SceneCopperhead(AppLife):
+    def construct(self):
+        super().construct()
+        num_rows = 40
+        num_cols = 72
+        wait_time = 1
+
+        life = Life(num_rows, num_cols)
+        grid = AppLife.create_grid(num_rows, num_cols, cell_height=14)
+        self.add(grid)
+
+        self.clear_screen(grid, life)
+        self.show_title_n_body(
+            "Cabeza de Cobre", "Nave espacial (descubierta en 2016)")
+        self.copperhead(grid, life, num_generations=1, wait_time=wait_time)
+        self.wait(0.5)
+
+        self.copperhead(grid, life, num_generations=100, wait_time=0.1)
+
+class SceneQuestion(AppLife):
+    def construct(self):
+        wait_time = 3
+        self.show_question(wait_time=wait_time)
+        
+        
+if __name__ == "__main__":
+    SceneGlider().construct()
+    SceneIntro().construct()
+    SceneRules().construct()
+    ScenePostRules().construct()
+    SceneRPentomino().construct()
+    SceneStillLife().construct()
+    SceneOscillators().construct()
+    SceneGliderGun().construct()
+    SceneCopperhead().construct()
+    SceneQuestion().construct()
+
+    
+    

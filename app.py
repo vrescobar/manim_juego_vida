@@ -1,11 +1,9 @@
 import manimlib
 from manimlib import *
-
 import sys
 sys.path.insert(1, '.')
 
 from life_game import Life
-
 CUSTOM_WHITE = '#ecf0f1'
 _BLACK_OPACITY = 0.6
 TITLE_FONT_SIZE = 60
@@ -23,78 +21,82 @@ class AppLife(Scene):
         # num_cols = 60
         num_cols = 72
 
-        # create an empty life board
+        # crear un tablero de vida vacío
         life = Life(num_rows, num_cols)
 
-        # this grid will be our playground to display life animation
+        # esta cuadrícula será nuestro campo de juego para mostrar la animación de vida
         grid = AppLife.create_grid(num_rows, num_cols, cell_height=14)
         self.add(grid)
 
-        # ANIMATIONS:
+        # ANIMACIONES:
 
-        # 1. display moving glider
+        # 1. mostrar el desplazamiento del planeador
         self.glider(grid, life, num_generations=30, wait_time=0.1)
 
-        # 2. show intro
+        # 2. mostrar la introducción
         self.show_title_n_body(
-            title="Game of Life",
-            body="Conway's Game of Life is a zero player game with a few simple rules",
+            title="Juego de la Vida",
+            body="El Juego de la Vida de Conway es un juego de cero jugadores con unas reglas simples",
             wait_time=2.5,
         )
 
-        # 3. show rules
+        # 3. mostrar las reglas
         # self.clear_screen(grid, life)
         self.show_rules(grid, life)
 
-        # 4. show post rules message
+        # 4. mostrar mensaje posterior a las reglas
         self.clear_screen(grid, life)
-        self.show_text("These rules turn simple starting patterns into complex ones.\n"
-                       "Some completely vanish and some keep progressing forever", font_size=BODY_FONT_SIZE, wait_time=2.5)
+        self.show_text("Estas reglas convierten patrones de inicio simples en patrones complejos.\n"
+                       "Algunos desaparecen por completo y otros progresan infinitamente", font_size=BODY_FONT_SIZE, wait_time=2.5)
 
-        # 5. R. Pentomino
+        # 5. R-pentominó
         self.clear_screen(grid, life)
-        self.show_text("R Pentomino", font_size=TITLE_FONT_SIZE, wait_time=1)
-        # to show R-pentomino starting position
+        self.show_text("R-pentominó", font_size=TITLE_FONT_SIZE, wait_time=1)
+        # para mostrar la posición inicial del R-pentominó
         self.r_pentomino(grid, life, num_generations=1, wait_time=1)
         self.wait(0.5)
-        # to actually animate r pentomino
+        # para animar realmente el R-pentominó
         self.r_pentomino(grid, life, num_generations=70)
 
-        # 6. show message about interesting patterns
+        # 6. mostrar mensaje sobre patrones interesantes
         # self.clear_screen(grid, life)
-        # self.show_text("Some interesting patterns:", font_size=BODY_FONT_SIZE)
+        # self.show_text("Algunos patrones interesantes:", font_size=BODY_FONT_SIZE)
 
-        # 7. Still Life
+        # 7. Vida estática
         self.clear_screen(grid, life)
-        self.show_title_n_body("Still Life",
-                               "Patterns that do not change in subsequent generations")
+        self.show_title_n_body("Vida Estática",
+                               "Patrones que no cambian en las generaciones posteriores")
         self.still_life(grid, life, num_generations=15)
 
-        # 8. Oscillators
+        # 8. Osciladores
         self.clear_screen(grid, life)
-        self.show_title_n_body("Oscillators", "Come back to initial state after a few generations")
+        self.show_title_n_body(
+            "Osciladores", "Vuelven a su estado inicial después de algunas generaciones")
         self.oscillators(grid, life, num_generations=25, wait_time=0.3)
 
-        # 9. Glider
+        # 9. Planeador
         self.clear_screen(grid, life)
-        self.show_title_n_body("Gosper Glider Gun", "Emits a Glider at every 30th generation (discovered in 1970)")
+        self.show_title_n_body("Arma del Planeador de Gosper (Glider Gun)",
+                               "Emite un planeador cada 30 generaciones (descubierto en 1970)")
         self.glider_gun(grid, life, num_generations=1, wait_time=1)
         self.wait(0.5)
         self.glider_gun(grid, life, num_generations=90, wait_time=0.05)
 
         # 10. Copperhead
+
         self.clear_screen(grid, life)
-        self.show_title_n_body("Copperhead", "Spaceship (discovered in 2016)")
+        self.show_title_n_body(
+            "Cabeza de Cobre", "Nave espacial (descubierta en 2016)")
         self.copperhead(grid, life, num_generations=1, wait_time=1)
         self.wait(0.5)
         self.copperhead(grid, life, num_generations=100, wait_time=0.1)
 
-        # # 11. Google it
+        # # 11. Búscalo en Google
         # self.clear_screen(grid, life)
-        # self.show_text("If you Google 'Game of Life', it is a nice easter egg",
+        # self.show_text("Si buscas 'Juego de la Vida' en Google, encontrarás un divertido huevo de Pascua",
         #                font_size=TITLE_FONT_SIZE)
 
-        # 11. Predictability
+        # 11. Predecibilidad
         self.clear_screen(grid, life)
         self.show_question()
 
@@ -102,7 +104,7 @@ class AppLife(Scene):
 
     @staticmethod
     def create_grid(num_rows, num_cols, cell_height=6):
-        # create a grid of squares
+        # crear una cuadrícula de cuadrados
         square = Square()
         square.set_fill(BLACK, opacity=_BLACK_OPACITY)
         square.set_stroke(BLACK, width=0)
@@ -118,8 +120,8 @@ class AppLife(Scene):
         return grid
 
     def animate_grid(self, grid, life, num_generations, wait_time=0.1):
-        # the first iteration of loop plots the initial state of board
-        # second iteration displays the one next generation
+        # la primera iteración del bucle muestra el estado inicial del tablero
+        # la segunda iteración muestra la siguiente generación
 
         # self.put_counter(wait_time)
 
@@ -127,16 +129,16 @@ class AppLife(Scene):
         while generation <= num_generations:
             self.wait(wait_time)
 
-            # put current state on display
+            # mostrar el estado actual en la pantalla
             # for i in range(life.num_rows):
             for i in range(len(life.board)):
                 # for j in range(life.num_cols):
                 for j in range(len(life.board[0])):
 
-                    # grid is a one dimensional (400,) list
+                    # la cuadrícula es una lista unidimensional (400,)
                     grid_idx = life.num_cols * i + j
 
-                    # this cell is alive
+                    # esta celda está viva
                     if life.board[i][j] == 1:
                         grid[grid_idx].set_fill(CUSTOM_WHITE)
                         grid[grid_idx].set_stroke(BLACK, width=.3)
@@ -149,7 +151,8 @@ class AppLife(Scene):
     def show_title_n_body(self, title, body, wait_time=2.5):
         title = Text(title, font_size=TITLE_FONT_SIZE, font=FONT_FAMILY)
         body = Text(body, font_size=BODY_FONT_SIZE, font=FONT_FAMILY)
-        vgroup = VGroup(title, body).arrange(DOWN, buff=TITLE_BODY_BUFFER, center=False, aligned_edge=LEFT) #.set_y(0)
+        vgroup = VGroup(title, body).arrange(
+            DOWN, buff=TITLE_BODY_BUFFER, center=False, aligned_edge=LEFT)  # .set_y(0)
         vgroup.to_edge(UP)
         vgroup.to_edge(LEFT)
         self.play(FadeIn(vgroup))
@@ -164,13 +167,12 @@ class AppLife(Scene):
 
     def show_question(self, wait_time=3):
         text = Text(
-            "Q: Given a state of the board, is it possible to tell whether\n"
-            "a certain pattern will vanish or live forever?",
-                    font_size=BODY_FONT_SIZE, font=FONT_FAMILY)
+            "P: Dado un estado del tablero, ¿es posible determinar si un cierto patrón desaparecerá o vivirá para siempre?",
+            font_size=BODY_FONT_SIZE, font=FONT_FAMILY)
         text.to_edge(UP)
         text.to_edge(LEFT)
 
-        credits_text = Text("code: github.com/emadehsan/life",
+        credits_text = Text("código: github.com/emadehsan/life",
                             font_size=BODY_FONT_SIZE, font=FONT_FAMILY)
         credits_text.to_edge(BOTTOM)
         text.to_edge(LEFT)
@@ -183,25 +185,25 @@ class AppLife(Scene):
     def show_rules(self, grid, life, wait_time=1.5):
         rules = [
             {
-                "title": "Underpopulation",
-                "body": "A live cell with fewer than two neighbours dies",
+                "title": "Subpoblación",
+                "body": "Una célula viva con menos de dos vecinos muere",
             },
             {
-                "title": "Survival",
-                "body": "A cell with two or three neighbours lives on to the next generation"
+                "title": "Supervivencia",
+                "body": "Una célula con dos o tres vecinos vive para la siguiente generación"
             },
             {
-                "title": "Overpopulation",
-                "body": "A cell with more than three neighbours dies"
+                "title": "Sobrepoblación",
+                "body": "Una célula con más de tres vecinos muere"
             },
             {
-                "title": "Reproduction",
-                "body": "A dead cell with exactly three neighbours becomes a live cell"
+                "title": "Reproducción",
+                "body": "Una célula muerta con exactamente tres vecinos se convierte en una célula viva"
             }
         ]
 
-        # the 4 functions from life_game.py that set the configuration of the board
-        # to example that shows the rule applied
+        # las 4 funciones de life_game.py que establecen la configuración del tablero
+        # para el ejemplo que muestra la regla aplicada
         board_state_functions = [
             life.put_underpopulation_example,
             life.put_survival_example,
@@ -209,46 +211,49 @@ class AppLife(Scene):
             life.put_reproduction_example
         ]
 
-        # index of the square in the grid. this is the square that will be
-        # affected in the next generation when playing by the rule. to get focus, make a flash
-        # these matches the life.put_*_example functions' examples
+        # índice del cuadrado en la cuadrícula. este es el cuadrado que se verá afectado en la próxima generación al jugar según la regla. para enfocar, hacer un destello
+        # estos coinciden con los ejemplos de las funciones life.put_*_example
         flash_indexes = [
-            (0, 4),  # this cell will die
-            (-1, -1),  # no change
-            (1, 1),  # this will die
-            (0, 1),  # this will come to life
+            (0, 4),  # esta célula morirá
+            (-1, -1),  # sin cambios
+            (1, 1),  # esto morirá
+            (0, 1),  # esto cobrará vida
         ]
 
         for i, rule in enumerate(rules):
-            # make the board and grid empty and clear texts etc
+            # limpiar la pantalla y el tablero, borrar textos, etc.
             self.clear_screen(grid, life)
 
-            # display this rule's text
-            title = Text(rule['title'], font_size=TITLE_FONT_SIZE, font=FONT_FAMILY)
-            body = Text(rule['body'], font_size=BODY_FONT_SIZE, font=FONT_FAMILY)
+            # mostrar el texto de esta regla
+            title = Text(
+                rule['title'], font_size=TITLE_FONT_SIZE, font=FONT_FAMILY)
+            body = Text(rule['body'], font_size=BODY_FONT_SIZE,
+                        font=FONT_FAMILY)
             # body2 = Text(rule['body2'], font_size=BODY_FONT_SIZE, font=FONT_FAMILY)
 
-            vgroup = VGroup(title, body).arrange(DOWN, buff=TITLE_BODY_BUFFER, center=False, aligned_edge=LEFT)
+            vgroup = VGroup(title, body).arrange(
+                DOWN, buff=TITLE_BODY_BUFFER, center=False, aligned_edge=LEFT)
             vgroup.to_edge(UP)
             vgroup.to_edge(LEFT)
             self.play(FadeIn(vgroup))
 
-            # show this rule's animation
-            self.display_rule_example(grid, life, board_state_functions[i], flash_indexes[i])
+            # mostrar la animación de esta regla
+            self.display_rule_example(
+                grid, life, board_state_functions[i], flash_indexes[i])
 
             self.wait(wait_time)
 
     def clear_screen(self, grid, life):
-        life.clear_board()  # this will clear the live cells
+        life.clear_board()  # esto borrará las células vivas
 
-        # now animate the grid for one generation,
-        # this will make all the squares of the gird displayed to be gray(i.e. empty)
+        # ahora animar la cuadrícula durante una generación,
+        # esto hará que todos los cuadrados de la cuadrícula se muestren en gris (es decir, vacíos)
         self.animate_grid(grid, life, num_generations=1)
 
-        # clear text & animation
+        # borrar texto y animación
         self.clear()
 
-        # adds the background grid again (which is all gray cells, now)
+        # agregar nuevamente la cuadrícula de fondo (que ahora son todas células grises)
         self.add(grid)
 
     def glider(self, grid, life, num_generations, wait_time=0.1):
@@ -264,34 +269,34 @@ class AppLife(Scene):
         self.animate_grid(grid, life, num_generations, wait_time)
 
     def display_rule_example(self, grid, life: Life, set_board_state_func, flash_index, wait_time=1) -> None:
-        # put example in the center. the examples chosen to highlight each rule
-        # need just one generation of animation
+        # poner el ejemplo en el centro. los ejemplos elegidos para resaltar cada regla
+        # solo necesitan una generación de animación
         i = life.num_rows // 2 - 1
         j = life.num_cols // 2 - 1
 
         set_board_state_func(i, j)
 
-        # animate for 1 generation, this will display the board starting state for this rule
+        # animar durante 1 generación, esto mostrará el estado inicial del tablero para esta regla
         self.animate_grid(grid, life, num_generations=1, wait_time=wait_time)
 
         self.wait(wait_time)
 
-        # add flash effect
+        # agregar efecto de destello
         a, b = flash_index
         if a >= 0 and b >= 0:
             self.play(
                 Flash(grid[
-                          life.num_cols * (i+a) + (j+b)
-                      ], color=RED_A, flash_radius=0.4)
+                    life.num_cols * (i+a) + (j+b)
+                ], color=RED_A, flash_radius=0.4)
             )
 
-        # animate for 1 generation again, this will advance the board state for 1 generation
+        # animar durante 1 generación nuevamente, esto avanzará el estado del tablero por 1 generación
         self.animate_grid(grid, life, num_generations=1, wait_time=wait_time)
 
         self.wait(wait_time)
 
     def r_pentomino(self, grid, life, num_generations, wait_time=0.1):
-        # put R-pentomino and animate it
+        # poner el R-pentomino y animarlo
         life.clear_board()
         life.put_r_pentomino(life.num_rows//2, life.num_cols//2)
 
@@ -300,12 +305,13 @@ class AppLife(Scene):
     def put_counter(self, wait_time):
         # CountInFrom()
 
-        # counts the generation
-        counter = DecimalNumber(1)#, text_config={"font": "monospace"})  #.scale(2)
+        # cuenta las generaciones
+        # , text_config={"font": "monospace"})  #.scale(2)
+        counter = DecimalNumber(1)
         # ChangingDecimal()
 
         def update_func(t):
-            return t *10
+            return t * 10
 
         counter.to_edge(UP)
         counter.to_edge(RIGHT)

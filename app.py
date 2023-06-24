@@ -323,7 +323,7 @@ class ScenePostRules(AppLife):
 
         self.clear_screen(grid, life)
         self.show_text("Estas reglas convierten patrones de inicio simples en patrones complejos.\n"
-                       "Algunos desaparecen por completo y otros progresan infinitamente", font_size=BODY_FONT_SIZE, wait_time=wait_time, color=BLACK)
+                       "Algunos desaparecen por completo y otros progresan infinitamente", font_size=BODY_FONT_SIZE, wait_time=wait_time)
 
 class SceneRPentomino(AppLife):
     def construct(self):

@@ -98,7 +98,7 @@ class AppLife(Scene):
 
         credits_text = Text("código original: github.com/emadehsan/life",
                             font_size=BODY_FONT_SIZE, font=FONT_FAMILY, color=BLACK)
-        modificado = Text("Modificado por Víctor R. Escobar (publición pendiente)",
+        modificado = Text("Modificado por Víctor R. Escobar: https://github.com/vrescobar/manim_juego_vida",
                             font_size=BODY_FONT_SIZE, font=FONT_FAMILY, color=BLACK)
         credits_text.to_edge(BOTTOM)
         # modificado, just below credits

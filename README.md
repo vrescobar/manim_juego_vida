@@ -1,3 +1,20 @@
+
+# Juego de la vida
+
+**Notas en Español**: hice un fork del repositorio de [emadehsan](github.com/emadehsan/life) y las únicas diferencias son:
+
+1. Todos los textos traducidos al Español
+2. He partido la Animación en varias escenas para facilitar crear varios videos
+3. Fondo Blanco para verlo mejor en presentaciones con proyectores
+4. Script de bash para generar los videos: `bash render_scenes.sh`
+
+Los videos generados pueden ser utilizados en Power Point, Keynote o el sistema externo que sea.
+El resto de instrucciones son como las del repositorio original.
+
+
+Readme original:
+-----
+
 # Game of Life
 
 

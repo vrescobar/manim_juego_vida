@@ -1,6 +1,6 @@
 #!/bin/bash
 
-scenes=(SceneGlider SceneIntro SceneRules ScenePostRules SceneRPentomino SceneStillLife SceneOscillators SceneGliderGun SceneCopperhead SceneQuestion)
+scenes=(SceneRandom SceneGlider SceneIntro SceneRules ScenePostRules SceneRPentomino SceneStillLife SceneOscillators SceneGliderGun SceneCopperhead SceneQuestion)
 counter=1
 
 for scene in "${scenes[@]}"; do

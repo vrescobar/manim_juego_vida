@@ -418,10 +418,24 @@ class SceneQuestion(AppLife):
     def construct(self):
         wait_time = 3
         self.show_question(wait_time=wait_time)
-        
-        
+
+class SceneRandom(AppLife):
+    def construct(self):
+        super().construct()
+        num_rows = 40
+        num_cols = 72
+        wait_time = 0.1
+
+        life = Life(num_rows, num_cols)
+        grid = AppLife.create_grid(num_rows, num_cols, cell_height=14)
+        self.add(grid)
+
+        life.random_board()
+        self.animate_grid(grid, life, num_generations=30, wait_time=wait_time)
+    
 if __name__ == "__main__":
     SceneGlider().construct()
+    SceneRandom().construct()
     SceneIntro().construct()
     SceneRules().construct()
     ScenePostRules().construct()
@@ -431,6 +445,3 @@ if __name__ == "__main__":
     SceneGliderGun().construct()
     SceneCopperhead().construct()
     SceneQuestion().construct()
-
-    
-    

@@ -1,4 +1,5 @@
 import pprint
+import random
 from typing import List, Tuple
 
 from assets.head_to_life_board import AsciiToBoard
@@ -41,6 +42,15 @@ class Life:
 
     def get_board(self) -> List[List[int]]:
         return self.board
+    
+    def random_board(self) -> None:
+        """
+        Generate a random board with dead (0) and alive (1) cells with equal probability.
+        :return: None
+        """
+        for i in range(self.num_rows):
+            for j in range(self.num_cols):
+                self.board[i][j] = random.choice([0, 1])
 
     def compute_next_state(self) -> None:
         # compute the next state based on the rules of game of life
@@ -371,18 +381,4 @@ if __name__ == '__main__':
     l.compute_next_state()
     print("Next State")
     pprint.pprint(l.get_board())
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
